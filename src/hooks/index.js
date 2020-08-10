@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { firebase } from "../firebase";
 import { collatedTasksExist } from "../helpers";
-import { moment } from "moment";
+import moment from "moment";
 
 ///////////////////////////////////////////////////////
 //
@@ -20,8 +20,7 @@ export const useTasks = selectedProject => {
     const [tasks, setTasks] = useState([]);
     const [archivedTasks, setArchivedTasks] = useState([]);
     
-    console.log(selectedProject);
-    console.log(!collatedTasksExist(selectedProject));
+    
     /*the array at the end of the function tells the useEffect function that if what is on 
     the array doesen't change don't re-run the effect.  useEffect manages the secondary 
     effects of the component. once it is mounted it will  call the function inside.*/
@@ -32,21 +31,23 @@ export const useTasks = selectedProject => {
                 .collection('tasks')
                 .where('userId', '==', 'randomUser');
 
-            /**
+
+            
                 //Filter the tasks acording to de project selected, or today or inbox.
             /*First condition checks if there is a project selected and it doesent belong
             to the collated tasks array. This is done by the imported 
             function collatedTasksExist. If true, filter all the tasks in unsuscribe that have
-            that project ID 
-            unsubscribe =  
+            that project ID*/ 
+            unsubscribe =
                 selectedProject && !collatedTasksExist(selectedProject) 
                 ? (unsubscribe = unsubscribe.where('projectId', '==', selectedProject)) 
                 : selectedProject === 'TODAY' 
                 ? (unsubscribe = unsubscribe.where('date', '==', moment().format('DD/MM/YYYY')))
                 : selectedProject === 'INBOX' || selectedProject === 0 
                 ? (unsubscribe = unsubscribe.where('date', '==', '')) 
-                : unsubscribe;*/
+                : unsubscribe;
             
+
             /*onSnapshot es un listener que se activa cuando hay algun cambio en los docs 
             seleccionados en la base de datos. Esta funcion lo que hace es una vez que esta 
             seleccionado el proyecto y unsuscribe tiene los docs asociados a esa seleccion 
