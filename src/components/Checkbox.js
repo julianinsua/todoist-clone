@@ -2,14 +2,14 @@ import React from "react";
 import { firebase } from "../firebase";
 
 export const Checkbox = ({id}) => {
-    const archiveTask = () =>{
+    const archiveTask = () => {
         firebase
             .firestore()
             .collection('tasks')
             .doc(id)
             .update({
-                archived: true
-            })
+                archived: true,
+            });
     };
 
     return (
